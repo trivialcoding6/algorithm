@@ -51,17 +51,21 @@ function moveRobot(current: Point, next: Point, startTime: number): Position[] {
 
 export function solution(points: number[][], routes: number[][]) {
   const pointMap: Point[] = points.map(([r, c]) => ({ r, c }));
+  console.log("pointMap", pointMap);
 
   // 모든 로봇의 이동 경로에서 위치-시간 정보 수집
   const timeMap = new Map<string, number>();
+  console.log("timeMap", timeMap);
 
   routes.forEach((route) => {
     const positions = calculateRobotPath(route, pointMap);
+    console.log("positions", positions);
     positions.forEach(({ r, c, time }) => {
       const key = `${r},${c},${time}`;
       timeMap.set(key, (timeMap.get(key) || 0) + 1);
     });
   });
+  console.log("timeMap", timeMap);
 
   // 충돌 위험 계산
   return Array.from(timeMap.values()).filter((count) => count > 1).length;
